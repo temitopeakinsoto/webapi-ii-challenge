@@ -35,6 +35,26 @@ router.get("/:id", (req, res) => {
     });
 });
 
+router.get("/:id/comments", (req, res) => {
+  const { id } = req.params;
+  db.findById(id)
+    .then(data => {
+      if (data.length === 0) {
+        res
+          .status(404)
+          .json({ message: "The post with the specified ID does not exist." });
+      } else {
+        return db.findPostComments(id);
+      }
+    })
+    .then(data => {
+      res.status(200).json(data);
+    })
+    .catch(error => {
+      console.log(error);
+    });
+});
+
 router.post("/", (req, res) => {
   const { title, contents } = req.body;
 
@@ -65,11 +85,9 @@ router.put("/:id", (req, res) => {
   const { title, contents } = req.body;
 
   if (!title || !contents) {
-    res
-      .status(400)
-      .json({
-        errorMessage: "Please provide title and contents for the post."
-      });
+    res.status(400).json({
+      errorMessage: "Please provide title and contents for the post."
+    });
   } else {
     const postToBeUpdated = {
       title,
