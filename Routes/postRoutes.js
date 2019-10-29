@@ -64,7 +64,7 @@ router.put('/:id', (req, res) => {
         .status(404)
       .json({ message: "The post with the specified ID does not exist." });
       });
-  }
+  } 
 
 })
 
