@@ -19,11 +19,9 @@ router.post("/", (req, res) => {
   const { title, contents } = req.body;
 
   if (!title || !contents) {
-    res
-      .status(400)
-      .json({
-        errorMessage: "Please provide title and contents for the post."
-      });
+    res.status(400).json({
+      errorMessage: "Please provide title and contents for the post."
+    });
   } else {
     const newBlogPost = {
       title,
@@ -42,8 +40,29 @@ router.post("/", (req, res) => {
   }
 });
 
-router.post("/", (req, res) => {
-  res.status(200).send("hello from POST /post route");
-});
+router.delete('/:id', (req, res) => {
+    const { id } = req.params;
+
+  db.remove(id)
+    .then(count => {
+      if (count && count > 0) {
+        res.status(200).json({
+          message: "the user was successfully deleted."
+        });
+      } else {
+        res
+          .status(404)
+          .json({ message: "The user with the specified ID does not exist." });
+      }
+    })
+    .catch(() => {
+      res
+        .status(500)
+        .json({
+          errorMessage: "The users information could not be retrieved."
+        });
+    });
+})
+
 
 module.exports = router;
