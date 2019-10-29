@@ -55,6 +55,35 @@ router.get("/:id/comments", (req, res) => {
     });
 });
 
+router.post("/:id/comments", (req, res) => {
+    let { id } = req.params;
+    let comment = req.body;
+    comment.post_id = id;
+    if (!comment || !comment.text) {
+      res
+        .status(400)
+        .json({ errorMessage: "Please provide text for the comment." });
+    }
+    db.insertComment(comment)
+      .then(data => {
+        db.findCommentById(data.id)
+          .then(data => {
+            res.status(201).json(data);
+          })
+          .catch(err => {
+            res.status(500).json({
+              error:
+                "Error in sending back newly created comment, but it was created."
+            });
+          });
+      })
+      .catch(err => {
+        res.status(500).json({
+          error: "There was an error while saving the comment to the database"
+        });
+      });
+   });
+
 router.post("/", (req, res) => {
   const { title, contents } = req.body;
 
