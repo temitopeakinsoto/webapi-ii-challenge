@@ -22,7 +22,8 @@ router.post("/", (req, res) => {
     res.status(400).json({
       errorMessage: "Please provide title and contents for the post."
     });
-  } else {
+  } 
+  else {
     const newBlogPost = {
       title,
       contents
@@ -39,6 +40,35 @@ router.post("/", (req, res) => {
       });
   }
 });
+
+router.put('/:id', (req, res) => {
+    const { id } = req.params;
+  const {title, contents} = req.body;
+
+  if (!title || !contents) {
+    res
+      .status(400)
+      .json({ errorMessage: "Please provide title and contents for the post." });
+  } 
+  else {
+      const postToBeUpdated = {
+          title,
+          contents
+      }
+    db.update(id, postToBeUpdated)
+      .then(post => {
+        res.status(200).json(post);
+      })
+      .catch(() => {
+          res
+        .status(404)
+      .json({ message: "The post with the specified ID does not exist." });
+      });
+  }
+
+})
+
+
 
 router.delete('/:id', (req, res) => {
     const { id } = req.params;
