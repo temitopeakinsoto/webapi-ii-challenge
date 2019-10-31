@@ -5,7 +5,6 @@
   "private": true,
   "main": "index.js",
   "scripts": {
-    "server": "nodemon index.js",
     "start": "node index.js"
   },
   "engine": {
