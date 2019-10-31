@@ -7,9 +7,9 @@
   "scripts": {
     "start": "node index.js"
   },
-  "engine": {
+  "engines": {
     "node": "10.16.3",
-    "version": "6.9.0"
+    "npm": "6.9.0"
   },
   "dependencies": {
     "dotenv": "^8.2.0",
@@ -17,6 +17,6 @@
     "sqlite3": "^4.1.0"
   },
   "devDependencies": {
-    "nodemon": "^1.19.3"
+            "nodemon": "^1.19.3"
   }
 }
